@@ -4,6 +4,5 @@ export default function Home() {
   function add(num: number): number {
     return num;
   }
-
-  return <div className="">hello</div>;
+  return <div className=""></div>;
 }
