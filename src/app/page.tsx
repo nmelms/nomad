@@ -10,6 +10,7 @@ export default function Home() {
   console.log(process.env.NEXT_PUBLIC_NOMAD_SECRET_KEY);
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const markerRef = useRef<mapboxgl.Marker | null>(null);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
@@ -27,12 +28,19 @@ export default function Home() {
       if (map.current) {
         const { lng, lat } = e.lngLat.wrap();
         const coords: [number, number] = [lng, lat];
-        console.log(coords);
-
-        new mapboxgl.Marker().setLngLat(coords).addTo(map.current);
+        // only allows one pin the be on the map at a time
+        if (markerRef.current) {
+          markerRef.current.setLngLat(coords);
+        } else {
+          const newMarker = new mapboxgl.Marker()
+            .setLngLat(coords)
+            .addTo(map.current);
+          console.log(newMarker);
+          markerRef.current = newMarker;
+        }
       }
     });
-  });
+  }, [[lng, lat, zoom]]);
 
   return (
     <div className="">
