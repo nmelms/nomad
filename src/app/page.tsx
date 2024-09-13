@@ -1,6 +1,8 @@
 "use client";
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState } from "react";
+// you need this css or else it causes weird behavior!
+import "mapbox-gl/dist/mapbox-gl.css";
 import SlideUpMenu from "./components/SideUpMenu";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_NOMAD_SECRET_KEY as string;
 
@@ -19,6 +21,16 @@ export default function Home() {
       style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat],
       zoom: zoom,
+    });
+
+    map.current.on("click", (e) => {
+      if (map.current) {
+        const { lng, lat } = e.lngLat.wrap();
+        const coords: [number, number] = [lng, lat];
+        console.log(coords);
+
+        new mapboxgl.Marker().setLngLat(coords).addTo(map.current);
+      }
     });
   });
 
