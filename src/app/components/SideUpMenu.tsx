@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { faCaretUp, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useState, useRef } from "react";
 
 const SideUpMenu = () => {
   const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -21,7 +22,9 @@ const SideUpMenu = () => {
         <FontAwesomeIcon icon={faCaretUp} />
       </div>
       <div className="button-wrapper w-full h-full pt-10 max-w-[450px]">
-        <FontAwesomeIcon icon={faCaretUp} />
+        <div className="border-2 rounded-full p-5 ">
+          <FontAwesomeIcon size="xl" icon={faUser} />
+        </div>
         <FontAwesomeIcon icon={faCaretUp} />
         <FontAwesomeIcon icon={faCaretUp} />
         <FontAwesomeIcon icon={faCaretUp} />
