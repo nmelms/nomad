@@ -12,20 +12,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 const fromSchema = z.object({
-  emailAddress: z.string().email(),
+  locationName: z.string(),
+  longitude: z.number(),
+  latitude: z.number(),
+  description: z.string(),
 });
 
-const handleSubmit = () => {
-  console.log("submit");
+const handleSubmit = (data: any) => {
+  console.log(data);
+  console.log("Form Data:", data);
+  // Check the type of longitude and latitude
+  console.log("Longitude type:", typeof data.longitude);
+  console.log("Latitude type:", typeof data.latitude);
 };
 
 const AddLocation = () => {
   const form = useForm<z.infer<typeof fromSchema>>({
     resolver: zodResolver(fromSchema),
     defaultValues: {
-      emailAddress: "",
+      locationName: "",
+      longitude: 0,
+      latitude: 0,
+      description: "Tell us about the place",
     },
   });
   return (
@@ -36,20 +47,76 @@ const AddLocation = () => {
       <h1>Add A location</h1>
       {/* TODO: Create a add location route */}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <form
+          className="grid gap-5 grid-cols-2 p-5"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
           <FormField
-            name="emailAddress"
+            name="locationName"
             control={form.control}
             render={({ field }) => {
               return (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                <FormItem className="col-span-2">
+                  <FormLabel>Location Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Location Name" type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          ></FormField>
+          <FormField
+            name="longitude"
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <FormItem className="col-span-1">
+                  <FormLabel>Lng</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="email address"
-                      type="email"
+                      placeholder="lng"
+                      type="number"
+                      step="any"
                       {...field}
+                      onChange={(event) => field.onChange(+event.target.value)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          ></FormField>
+          <FormField
+            name="latitude"
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <FormItem className="col-span-1">
+                  <FormLabel>Lat</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="lat"
+                      type="number"
+                      step="any"
+                      {...field}
+                      onChange={(event) => field.onChange(+event.target.value)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          ></FormField>
+          <FormField
+            name="description"
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <FormItem className="col-span-2">
+                  <FormLabel>description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="description" rows={4} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
