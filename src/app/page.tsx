@@ -31,7 +31,10 @@ export default function Home() {
         slideMenu.classList.add("slide-down");
       }
     }
-    editorMode.current = true;
+  };
+
+  const handleFindOnMap = () => {
+    console.log("map");
   };
 
   useEffect(() => {
@@ -66,7 +69,9 @@ export default function Home() {
   return (
     <div className="">
       <div ref={mapContainer} className="map-container h-dvh" />
-      {view === "add_location" && <AddLocation />}
+      {view === "add_location" && (
+        <AddLocation handleFindOnMap={handleFindOnMap} />
+      )}
       <SlideUpMenu handleAddLocation={handleAddLocation} />
     </div>
   );

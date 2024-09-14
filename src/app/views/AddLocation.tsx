@@ -23,6 +23,10 @@ const fromSchema = z.object({
   description: z.string(),
 });
 
+interface AddLocationProps {
+  handleFindOnMap: () => void;
+}
+
 const handleSubmit = (data: any) => {
   console.log(data);
   console.log("Form Data:", data);
@@ -31,7 +35,7 @@ const handleSubmit = (data: any) => {
   console.log("Latitude type:", typeof data.latitude);
 };
 
-const AddLocation = () => {
+const AddLocation: React.FC<AddLocationProps> = ({ handleFindOnMap }) => {
   const form = useForm<z.infer<typeof fromSchema>>({
     resolver: zodResolver(fromSchema),
     defaultValues: {
@@ -110,7 +114,11 @@ const AddLocation = () => {
               );
             }}
           ></FormField>
-          <Button className="col-span-2">
+          <Button
+            type="button"
+            onClick={handleFindOnMap}
+            className="col-span-2"
+          >
             Find Location on Map
             <FontAwesomeIcon className="ps-5" icon={faMap} />
           </Button>
