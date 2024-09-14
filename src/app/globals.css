@@ -13,6 +13,27 @@
     --foreground: #ededed;
   }
 }
+html {
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.slide-up {
+  transition: transform 0.5s ease;
+  transform: translateY(-80%);
+}
+
+.slide-down {
+  transition: transform 0.5s ease;
+  transform: translateY(0);
+}
+
+.button-wrapper {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
+  gap: 10px; /* Adds spacing between the buttons */
+}
 
 body {
   color: var(--foreground);
