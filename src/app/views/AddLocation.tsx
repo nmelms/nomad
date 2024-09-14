@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMap } from "@fortawesome/free-solid-svg-icons";
 
 const fromSchema = z.object({
   locationName: z.string(),
@@ -108,6 +110,10 @@ const AddLocation = () => {
               );
             }}
           ></FormField>
+          <Button className="col-span-2">
+            Find Location on Map
+            <FontAwesomeIcon className="ps-5" icon={faMap} />
+          </Button>
           <FormField
             name="description"
             control={form.control}
