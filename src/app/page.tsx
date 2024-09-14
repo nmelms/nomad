@@ -15,12 +15,13 @@ export default function Home() {
   const [view, setView] = useState<string>("home");
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
+  const [locationLatLng, setLocationLatLng] = useState<number[] | []>([]);
   const [zoom, setZoom] = useState(9);
   // inital run
   let slideMenu: HTMLElement | null;
   useEffect(() => {
     slideMenu = document.getElementById("slide-menu");
-  }, []);
+  });
 
   const handleAddLocation = (): void => {
     setView("add_location");
@@ -34,7 +35,8 @@ export default function Home() {
   };
 
   const handleFindOnMap = () => {
-    console.log("map");
+    setView("home");
+    editorMode.current = true;
   };
 
   useEffect(() => {
@@ -59,20 +61,28 @@ export default function Home() {
           const newMarker = new mapboxgl.Marker()
             .setLngLat(coords)
             .addTo(map.current);
-          console.log(newMarker);
           markerRef.current = newMarker;
         }
+
+        setTimeout(() => {
+          console.log("set lat lng");
+          setView("add_location");
+          setLocationLatLng([lng, lat]);
+        }, 2000);
       }
     });
   }, [[lng, lat, zoom]]);
 
   return (
-    <div className="">
+    <>
       <div ref={mapContainer} className="map-container h-dvh" />
       {view === "add_location" && (
-        <AddLocation handleFindOnMap={handleFindOnMap} />
+        <AddLocation
+          handleFindOnMap={handleFindOnMap}
+          locationLatLng={locationLatLng}
+        />
       )}
       <SlideUpMenu handleAddLocation={handleAddLocation} />
-    </div>
+    </>
   );
 }

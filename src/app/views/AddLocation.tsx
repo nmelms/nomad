@@ -2,6 +2,7 @@ import React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -25,6 +26,7 @@ const fromSchema = z.object({
 
 interface AddLocationProps {
   handleFindOnMap: () => void;
+  locationLatLng: number[] | [];
 }
 
 const handleSubmit = (data: any) => {
@@ -35,7 +37,10 @@ const handleSubmit = (data: any) => {
   console.log("Latitude type:", typeof data.latitude);
 };
 
-const AddLocation: React.FC<AddLocationProps> = ({ handleFindOnMap }) => {
+const AddLocation: React.FC<AddLocationProps> = ({
+  handleFindOnMap,
+  locationLatLng,
+}) => {
   const form = useForm<z.infer<typeof fromSchema>>({
     resolver: zodResolver(fromSchema),
     defaultValues: {
@@ -45,6 +50,17 @@ const AddLocation: React.FC<AddLocationProps> = ({ handleFindOnMap }) => {
       description: "Tell us about the place",
     },
   });
+
+  useEffect(() => {
+    console.log("set lat lng");
+    let latField = document.getElementById("latField") as HTMLInputElement;
+    let lngField = document.getElementById("lngField") as HTMLInputElement;
+    if (latField && lngField && locationLatLng.length) {
+      console.log("set lat lng inside");
+      latField.value = locationLatLng[0].toString();
+      lngField.value = locationLatLng[1].toString();
+    }
+  }, [locationLatLng]);
   return (
     <div
       id="add-location-view"
@@ -81,6 +97,7 @@ const AddLocation: React.FC<AddLocationProps> = ({ handleFindOnMap }) => {
                   <FormLabel>Lng</FormLabel>
                   <FormControl>
                     <Input
+                      id="lngField"
                       placeholder="lng"
                       type="number"
                       step="any"
@@ -102,6 +119,7 @@ const AddLocation: React.FC<AddLocationProps> = ({ handleFindOnMap }) => {
                   <FormLabel>Lat</FormLabel>
                   <FormControl>
                     <Input
+                      id="latField"
                       placeholder="lat"
                       type="number"
                       step="any"

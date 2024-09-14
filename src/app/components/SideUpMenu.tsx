@@ -13,6 +13,8 @@ const SideUpMenu: React.FC<SideUpMenuProps> = ({ handleAddLocation }) => {
 
   // TODO: switching this to only with with a small hitbox. Eventually change to a slide up the is draggable
   const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // querying the slide menu again here. Causing a bug when i would switch views
+    slideMenu = document.getElementById("slide-menu");
     if (slideMenu) {
       if (slideMenu.classList.contains("slide-up")) {
         slideMenu.classList.remove("slide-up");
