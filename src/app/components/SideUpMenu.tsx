@@ -27,7 +27,7 @@ const SideUpMenu: React.FC<SideUpMenuProps> = ({ handleAddLocation }) => {
   return (
     <div
       id="slide-menu"
-      className="h-[300px] w-screen absolute bottom-[-265px] rounded-lg bg-white items-center text-black flex flex-col "
+      className="h-[300px] w-screen absolute bottom-[-265px] rounded-lg bg-white items-center text-black flex flex-col z-20 "
     >
       <div
         onClick={(e) => handleSlideClick(e)}

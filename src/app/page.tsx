@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 // you need this css or else it causes weird behavior!
 import "mapbox-gl/dist/mapbox-gl.css";
 import SlideUpMenu from "./components/SideUpMenu";
+import AddLocation from "./views/AddLocation";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_NOMAD_SECRET_KEY as string;
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   const map = useRef<mapboxgl.Map | null>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
   const editorMode = useRef<boolean>(false);
+  const [view, setView] = useState<string>("home");
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
@@ -20,11 +22,9 @@ export default function Home() {
     slideMenu = document.getElementById("slide-menu");
   }, []);
 
-  useEffect(() => {
-    console.log(editorMode);
-  }, [editorMode]);
-
   const handleAddLocation = (): void => {
+    setView("add_location");
+
     if (slideMenu) {
       if (slideMenu.classList.contains("slide-up")) {
         slideMenu.classList.remove("slide-up");
@@ -66,6 +66,7 @@ export default function Home() {
   return (
     <div className="">
       <div ref={mapContainer} className="map-container h-dvh" />
+      {view === "add_location" && <AddLocation />}
       <SlideUpMenu handleAddLocation={handleAddLocation} />
     </div>
   );

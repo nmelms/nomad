@@ -6,6 +6,9 @@
   --background: #ffffff;
   --foreground: #171717;
 }
+/* zindex inded */
+/* slideMenu = 20 */
+/* active view = 10 */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -28,6 +31,12 @@ html {
   transform: translateY(0);
 }
 
+.active-view {
+  position: absolute;
+  top: 0;
+  height: 100dvh;
+  width: 100dvw;
+}
 .button-wrapper {
   display: grid;
   place-items: center;
