@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMap } from "@fortawesome/free-solid-svg-icons";
+import supabase from "../../lib/supabaseClient";
 
 const fromSchema = z.object({
   locationName: z.string(),
@@ -28,13 +29,30 @@ interface AddLocationProps {
   handleFindOnMap: () => void;
   locationLatLng: number[] | [];
 }
+interface LocationData {
+  locationName: string;
+  latitude: number;
+  longitude: number;
+  description: string;
+}
+// TODO: make a data interface
+const handleSubmit = async (data: LocationData) => {
+  let payload = {
+    location_name: data.locationName,
+    lat_lng: [data.latitude, data.longitude],
+    description: data.description,
+  };
+  const { data: insertedData, error } = await supabase
+    .from("Locations")
+    .insert(payload);
 
-const handleSubmit = (data: any) => {
-  console.log(data);
-  console.log("Form Data:", data);
-  // Check the type of longitude and latitude
-  console.log("Longitude type:", typeof data.longitude);
-  console.log("Latitude type:", typeof data.latitude);
+  if (error) {
+    console.error("Error inserting data:", error);
+    return { success: false, error };
+  }
+
+  console.log("Data inserted successfully:", insertedData);
+  return { success: true, data: insertedData };
 };
 
 const AddLocation: React.FC<AddLocationProps> = ({
@@ -47,20 +65,17 @@ const AddLocation: React.FC<AddLocationProps> = ({
       locationName: "",
       longitude: 0,
       latitude: 0,
-      description: "Tell us about the place",
+      description: "",
     },
   });
 
   useEffect(() => {
-    console.log("set lat lng");
-    let latField = document.getElementById("latField") as HTMLInputElement;
-    let lngField = document.getElementById("lngField") as HTMLInputElement;
-    if (latField && lngField && locationLatLng.length) {
-      console.log("set lat lng inside");
-      latField.value = locationLatLng[0].toString();
-      lngField.value = locationLatLng[1].toString();
+    if (locationLatLng.length) {
+      form.setValue("latitude", locationLatLng[0]);
+      form.setValue("longitude", locationLatLng[1]);
     }
-  }, [locationLatLng]);
+  }, [locationLatLng, form]);
+
   return (
     <div
       id="add-location-view"
@@ -99,8 +114,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
                     <Input
                       id="lngField"
                       placeholder="lng"
-                      type="number"
-                      step="any"
+                      type="text"
                       {...field}
                       onChange={(event) => field.onChange(+event.target.value)}
                     />
@@ -121,8 +135,8 @@ const AddLocation: React.FC<AddLocationProps> = ({
                     <Input
                       id="latField"
                       placeholder="lat"
-                      type="number"
-                      step="any"
+                      type="text"
+                      style={{ appearance: "none" }}
                       {...field}
                       onChange={(event) => field.onChange(+event.target.value)}
                     />
@@ -148,7 +162,11 @@ const AddLocation: React.FC<AddLocationProps> = ({
                 <FormItem className="col-span-2">
                   <FormLabel>description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="description" rows={4} {...field} />
+                    <Textarea
+                      placeholder="Tell us about the place"
+                      rows={4}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
