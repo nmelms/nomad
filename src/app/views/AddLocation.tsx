@@ -17,6 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMap } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../../lib/supabaseClient";
+// TODO: probably want to fix this import alias
+import { AddLocationProps, LocationData } from "@/../types";
 
 const fromSchema = z.object({
   locationName: z.string(),
@@ -25,16 +27,6 @@ const fromSchema = z.object({
   description: z.string(),
 });
 
-interface AddLocationProps {
-  handleFindOnMap: () => void;
-  locationLatLng: number[] | [];
-}
-interface LocationData {
-  locationName: string;
-  latitude: number;
-  longitude: number;
-  description: string;
-}
 // TODO: make a data interface
 const handleSubmit = async (data: LocationData) => {
   let payload = {
