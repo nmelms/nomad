@@ -28,23 +28,21 @@ const fromSchema = z.object({
 });
 
 // TODO: make a data interface
-const handleSubmit = async (data: LocationData) => {
-  let payload = {
-    location_name: data.locationName,
-    lat_lng: [data.latitude, data.longitude],
-    description: data.description,
-  };
-  const { data: insertedData, error } = await supabase
-    .from("Locations")
-    .insert(payload);
+const handleSubmit = async (data: z.infer<typeof fromSchema>) => {
+  const response = await fetch("/api/addLocation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
 
-  if (error) {
-    console.error("Error inserting data:", error);
-    return { success: false, error };
+  const result = await response.json();
+  if (result.success) {
+    console.log("Data inserted successfully:", result.data);
+  } else {
+    console.error("Error inserting data:", result.error);
   }
-
-  console.log("Data inserted successfully:", insertedData);
-  return { success: true, data: insertedData };
 };
 
 const AddLocation: React.FC<AddLocationProps> = ({
