@@ -20,51 +20,39 @@ import supabase from "../../lib/supabaseClient";
 // TODO: probably want to fix this import alias
 import { AddLocationProps, LocationData } from "@/../types";
 
-const fromSchema = z.object({
-  locationName: z.string(),
-  longitude: z.number(),
-  latitude: z.number(),
-  description: z.string(),
-});
-
-// TODO: make a data interface
-const handleSubmit = async (data: z.infer<typeof fromSchema>) => {
-  const response = await fetch("/api/addLocation", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  const result = await response.json();
-  if (result.success) {
-    console.log("Data inserted successfully:", result.data);
-  } else {
-    console.error("Error inserting data:", result.error);
-  }
-};
-
 const AddLocation: React.FC<AddLocationProps> = ({
   handleFindOnMap,
   locationLatLng,
+  form,
+  formSchema,
 }) => {
-  const form = useForm<z.infer<typeof fromSchema>>({
-    resolver: zodResolver(fromSchema),
-    defaultValues: {
-      locationName: "",
-      longitude: 0,
-      latitude: 0,
-      description: "",
-    },
+  useEffect(() => {
+    console.log("renderr");
   });
+
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    const response = await fetch("/api/addLocation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log("Data inserted successfully:", result.data);
+    } else {
+      console.error("Error inserting data:", result.error);
+    }
+  };
 
   useEffect(() => {
     if (locationLatLng.length) {
       form.setValue("latitude", locationLatLng[0]);
       form.setValue("longitude", locationLatLng[1]);
     }
-  }, [locationLatLng, form]);
+  }, [locationLatLng]);
 
   return (
     <div
@@ -86,7 +74,12 @@ const AddLocation: React.FC<AddLocationProps> = ({
                 <FormItem className="col-span-2">
                   <FormLabel>Location Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Location Name" type="text" {...field} />
+                    <Input
+                      defaultValue={field.value}
+                      placeholder="Location Name"
+                      type="text"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

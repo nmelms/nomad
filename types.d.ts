@@ -1,6 +1,15 @@
+import { ZodObject } from "zod";
+
 export interface AddLocationProps {
   handleFindOnMap: () => void;
   locationLatLng: number[] | [];
+  form: UseFormReturn<{
+    locationName: string;
+    longitude: number;
+    latitude: number;
+    description: string;
+  }>;
+  formSchema: ZodObject<any>;
 }
 export interface LocationData {
   locationName: string;

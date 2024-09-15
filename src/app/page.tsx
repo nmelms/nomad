@@ -1,12 +1,21 @@
 "use client";
 import mapboxgl from "mapbox-gl";
+import * as z from "zod";
 import React, { useRef, useEffect, useState } from "react";
 // you need this css or else it causes weird behavior!
 import "mapbox-gl/dist/mapbox-gl.css";
 import SlideUpMenu from "./components/SideUpMenu";
 import AddLocation from "./views/AddLocation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_NOMAD_SECRET_KEY as string;
 
+const formSchema = z.object({
+  locationName: z.string(),
+  longitude: z.number(),
+  latitude: z.number(),
+  description: z.string(),
+});
 export default function Home() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -17,10 +26,21 @@ export default function Home() {
   const [lat, setLat] = useState(42.35);
   const [locationLatLng, setLocationLatLng] = useState<number[] | []>([]);
   const [zoom, setZoom] = useState(9);
+
   // inital run
   let slideMenu: HTMLElement | null;
   useEffect(() => {
     slideMenu = document.getElementById("slide-menu");
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      locationName: "",
+      longitude: 0,
+      latitude: 0,
+      description: "",
+    },
   });
 
   const handleAddLocation = (): void => {
@@ -65,7 +85,6 @@ export default function Home() {
         }
 
         setTimeout(() => {
-          console.log("set lat lng");
           setView("add_location");
           setLocationLatLng([lng, lat]);
         }, 2000);
@@ -80,6 +99,8 @@ export default function Home() {
         <AddLocation
           handleFindOnMap={handleFindOnMap}
           locationLatLng={locationLatLng}
+          form={form}
+          formSchema={formSchema}
         />
       )}
       <SlideUpMenu handleAddLocation={handleAddLocation} />
