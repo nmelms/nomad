@@ -200,7 +200,6 @@ const Step1: React.FC<Step1Props> = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

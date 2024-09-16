@@ -38,30 +38,84 @@ type FormData = z.infer<typeof formSchema>;
 
 const Step2: React.FC<Step1Props> = ({ form, formSchema, handleSubmit }) => {
   return (
-    <Form {...form}>
-      <form
-        className="grid gap-5 grid-cols-2 p-5"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        {/* location Name */}
-        <FormField
-          name="fakeName"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Location Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Location Name" type="text" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* longitude */}
+    <>
+      <h1>More Info</h1>
+      <Form {...form}>
+        <form
+          className="grid gap-5 grid-cols-2 p-5"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
+          {/* Cell Service */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Cell Service" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">None</SelectItem>
+              <SelectItem value="bad">Bad</SelectItem>
+              <SelectItem value="okay">Okay</SelectItem>
+              <SelectItem value="excellent">Excellent</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* big rig accessible */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Acessible with Larger Rigs" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">Yes</SelectItem>
+              <SelectItem value="bad">No</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* 4wd necessary */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Acessible with 2wd" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">Yes</SelectItem>
+              <SelectItem value="bad">No</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* 4wd necessary */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Is there Water Available" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="potable">Potable Water</SelectItem>
+              <SelectItem value="natual">Natural Source</SelectItem>
+              <SelectItem value="none">No water</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* Safe */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Did you feel Safe" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="yes">Yes</SelectItem>
+              <SelectItem value="neutral">Neutral</SelectItem>
+              <SelectItem value="no">Sketchy</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* Showers */}
+          <Select>
+            <SelectTrigger className="col-span-2">
+              <SelectValue placeholder="Showers Available?" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="yes">Yes</SelectItem>
+              <SelectItem value="no">no</SelectItem>
+            </SelectContent>
+          </Select>
 
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+          <Button className="col-span-2" type="submit">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 };
 
