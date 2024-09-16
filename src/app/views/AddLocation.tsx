@@ -20,6 +20,8 @@ import {
   faCity,
   faMap,
   faMountain,
+  faCrosshairs,
+  faCross,
 } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../../lib/supabaseClient";
 import {
@@ -38,6 +40,8 @@ const AddLocation: React.FC<AddLocationProps> = ({
   locationLatLng,
   form,
   formSchema,
+  handleUseLocation,
+  gettingLocation,
 }) => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
@@ -151,6 +155,18 @@ const AddLocation: React.FC<AddLocationProps> = ({
             Find Location on Map
             <FontAwesomeIcon className="ps-5" icon={faMap} />
           </Button>
+          {/* use current location */}
+          <Button
+            type="button"
+            onClick={handleUseLocation}
+            className="col-span-2 "
+          >
+            <span className="pe-5">Use Current Location</span>
+            <FontAwesomeIcon
+              className={`${gettingLocation ? "spin" : ""}`}
+              icon={faCrosshairs}
+            />
+          </Button>
           {/* category */}
           <FormField
             control={form.control}
@@ -182,7 +198,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
               </FormItem>
             )}
           />
-          {/* description */}
+          {/* Pictures */}
           <FormField
             name="pics"
             control={form.control}
@@ -204,6 +220,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
               );
             }}
           ></FormField>
+          {/* description */}
           <FormField
             name="description"
             control={form.control}

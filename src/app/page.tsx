@@ -28,6 +28,7 @@ export default function Home() {
   const [lat, setLat] = useState(42.35);
   const [locationLatLng, setLocationLatLng] = useState<number[] | []>([]);
   const [zoom, setZoom] = useState(9);
+  const [gettingLocation, setGettingLocation] = useState<boolean>(false);
 
   // inital run
   let slideMenu: HTMLElement | null;
@@ -61,6 +62,24 @@ export default function Home() {
   const handleFindOnMap = () => {
     setView("home");
     editorMode.current = true;
+  };
+
+  const handleUseLocation = () => {
+    setGettingLocation(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          form.setValue("latitude", position.coords.latitude);
+          form.setValue("longitude", position.coords.longitude);
+          setGettingLocation(false);
+        },
+        (error) => {
+          console.error(`Error: ${error.message}`);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
   };
 
   useEffect(() => {
@@ -105,6 +124,8 @@ export default function Home() {
           locationLatLng={locationLatLng}
           form={form}
           formSchema={formSchema}
+          handleUseLocation={handleUseLocation}
+          gettingLocation={gettingLocation}
         />
       )}
       <SlideUpMenu handleAddLocation={handleAddLocation} />

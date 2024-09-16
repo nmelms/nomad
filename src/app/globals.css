@@ -20,6 +20,18 @@ html {
   max-height: 100dvh;
   overflow: hidden;
 }
+.spin {
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .slide-up {
   transition: transform 0.5s ease;

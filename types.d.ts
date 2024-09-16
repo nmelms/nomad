@@ -10,6 +10,8 @@ export interface AddLocationProps {
     description: string;
   }>;
   formSchema: ZodObject<any>;
+  handleUseLocation;
+  gettingLocation: boolean;
 }
 export interface LocationData {
   locationName: string;
