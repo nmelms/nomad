@@ -16,6 +16,7 @@ const formSchema = z.object({
   latitude: z.number(),
   category: z.string(),
   description: z.string(),
+  pics: z.string(),
 });
 export default function Home() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -42,6 +43,7 @@ export default function Home() {
       latitude: 0,
       category: "",
       description: "",
+      pics: "",
     },
   });
 

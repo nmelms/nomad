@@ -184,6 +184,27 @@ const AddLocation: React.FC<AddLocationProps> = ({
           />
           {/* description */}
           <FormField
+            name="pics"
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <FormItem className="col-span-2">
+                  <FormLabel>Pictures</FormLabel>
+                  <FormControl>
+                    <Input
+                      defaultValue={field.value}
+                      placeholder="Location Name"
+                      type="file"
+                      multiple
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          ></FormField>
+          <FormField
             name="description"
             control={form.control}
             render={({ field }) => {
