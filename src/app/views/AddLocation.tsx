@@ -15,8 +15,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMap } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCampground,
+  faCity,
+  faMap,
+  faMountain,
+} from "@fortawesome/free-solid-svg-icons";
 import supabase from "../../lib/supabaseClient";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 // TODO: probably want to fix this import alias
 import { AddLocationProps, LocationData } from "@/../types";
 
@@ -26,11 +39,8 @@ const AddLocation: React.FC<AddLocationProps> = ({
   form,
   formSchema,
 }) => {
-  useEffect(() => {
-    console.log("renderr");
-  });
-
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log(data);
     const response = await fetch("/api/addLocation", {
       method: "POST",
       headers: {
@@ -66,6 +76,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
           className="grid gap-5 grid-cols-2 p-5"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
+          {/* location Name */}
           <FormField
             name="locationName"
             control={form.control}
@@ -86,6 +97,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
               );
             }}
           ></FormField>
+          {/* longitude */}
           <FormField
             name="longitude"
             control={form.control}
@@ -107,6 +119,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
               );
             }}
           ></FormField>
+          {/* latitude */}
           <FormField
             name="latitude"
             control={form.control}
@@ -129,6 +142,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
               );
             }}
           ></FormField>
+          {/* find on map */}
           <Button
             type="button"
             onClick={handleFindOnMap}
@@ -137,6 +151,38 @@ const AddLocation: React.FC<AddLocationProps> = ({
             Find Location on Map
             <FontAwesomeIcon className="ps-5" icon={faMap} />
           </Button>
+          {/* category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select A Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="dispersed">
+                      <FontAwesomeIcon className="pe-5" icon={faMountain} />
+                      Dispersed Campsite
+                    </SelectItem>
+                    <SelectItem value="city">
+                      <FontAwesomeIcon className="pe-5" icon={faCity} />
+                      City Campsite
+                    </SelectItem>
+                    <SelectItem value="established">
+                      <FontAwesomeIcon className="pe-5" icon={faCampground} />
+                      Established Campsite
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* description */}
           <FormField
             name="description"
             control={form.control}

@@ -14,6 +14,7 @@ const formSchema = z.object({
   locationName: z.string(),
   longitude: z.number(),
   latitude: z.number(),
+  category: z.string(),
   description: z.string(),
 });
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
       locationName: "",
       longitude: 0,
       latitude: 0,
+      category: "",
       description: "",
     },
   });
