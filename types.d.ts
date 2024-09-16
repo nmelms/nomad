@@ -19,3 +19,12 @@ export interface LocationData {
   longitude: number;
   description: string;
 }
+
+export interface Step1Props {
+  form: UseFormReturn<FormData>; // Type should be inferred from the schema
+  handleSubmit: (data: FormData) => Promise<void>;
+  handleFindOnMap: () => void;
+  handleUseLocation: () => void;
+  gettingLocation: boolean;
+  formSchema: any;
+}

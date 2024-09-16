@@ -17,7 +17,12 @@ const formSchema = z.object({
   category: z.string(),
   description: z.string(),
   pics: z.string(),
-  fakeName: z.string(),
+  cellService: z.string(),
+  twd: z.string(),
+  largeRigs: z.string(),
+  showers: z.string(),
+  safe: z.string(),
+  water: z.string(),
 });
 export default function Home() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -46,7 +51,12 @@ export default function Home() {
       category: "",
       description: "",
       pics: "",
-      fakeName: "",
+      cellService: "",
+      largeRigs: "",
+      twd: "",
+      showers: "",
+      safe: "",
+      water: "",
     },
   });
 

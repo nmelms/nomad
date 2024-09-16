@@ -27,28 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// Define the schema and its inferred type
-const formSchema = z.object({
-  locationName: z.string().nonempty("Location Name is required"),
-  longitude: z.number(),
-  latitude: z.number(),
-  category: z.string(),
-  description: z.string(),
-  pics: z.string().optional(),
-  fakeName: z.string(),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
-interface Step1Props {
-  form: UseFormReturn<FormData>; // Type should be inferred from the schema
-  handleSubmit: (data: FormData) => Promise<void>;
-  handleFindOnMap: () => void;
-  handleUseLocation: () => void;
-  gettingLocation: boolean;
-  formSchema: any;
-}
+import { Step1Props } from "../../../../types";
 
 const Step1: React.FC<Step1Props> = ({
   form,
@@ -56,6 +35,7 @@ const Step1: React.FC<Step1Props> = ({
   handleFindOnMap,
   handleUseLocation,
   gettingLocation,
+  formSchema,
 }) => {
   return (
     <Form {...form}>

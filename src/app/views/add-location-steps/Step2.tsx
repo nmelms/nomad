@@ -26,7 +26,12 @@ const formSchema = z.object({
   category: z.string(),
   description: z.string(),
   pics: z.string().optional(),
-  fakeName: z.string(),
+  cellService: z.string(),
+  twd: z.string(),
+  largeRigs: z.string(),
+  showers: z.string(),
+  safe: z.string(),
+  water: z.string(),
 });
 interface Step1Props {
   form: UseFormReturn<FormData>; // Type should be inferred from the schema
@@ -46,69 +51,127 @@ const Step2: React.FC<Step1Props> = ({ form, formSchema, handleSubmit }) => {
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           {/* Cell Service */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Cell Service" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">None</SelectItem>
-              <SelectItem value="bad">Bad</SelectItem>
-              <SelectItem value="okay">Okay</SelectItem>
-              <SelectItem value="excellent">Excellent</SelectItem>
-            </SelectContent>
-          </Select>
+          <FormField
+            name="cellService"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Cell Service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="bad">Bad</SelectItem>
+                    <SelectItem value="okay">Okay</SelectItem>
+                    <SelectItem value="excellent">Excellent</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* big rig accessible */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Acessible with Larger Rigs" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">Yes</SelectItem>
-              <SelectItem value="bad">No</SelectItem>
-            </SelectContent>
-          </Select>
+
+          <FormField
+            name="largeRigs"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Acessible with Larger Rigs" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Yes</SelectItem>
+                    <SelectItem value="bad">No</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* 4wd necessary */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Acessible with 2wd" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">Yes</SelectItem>
-              <SelectItem value="bad">No</SelectItem>
-            </SelectContent>
-          </Select>
-          {/* 4wd necessary */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Is there Water Available" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="potable">Potable Water</SelectItem>
-              <SelectItem value="natual">Natural Source</SelectItem>
-              <SelectItem value="none">No water</SelectItem>
-            </SelectContent>
-          </Select>
+          <FormField
+            name="twd"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Acessible with 2wd" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Yes</SelectItem>
+                    <SelectItem value="bad">No</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* water */}
+          <FormField
+            name="water"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Is there Water Available" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="potable">Potable Water</SelectItem>
+                    <SelectItem value="natual">Natural Source</SelectItem>
+                    <SelectItem value="none">No water</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Safe */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Did you feel Safe" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="yes">Yes</SelectItem>
-              <SelectItem value="neutral">Neutral</SelectItem>
-              <SelectItem value="no">Sketchy</SelectItem>
-            </SelectContent>
-          </Select>
+          <FormField
+            name="safe"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Did you feel Safe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">Yes</SelectItem>
+                    <SelectItem value="neutral">Neutral</SelectItem>
+                    <SelectItem value="no">Sketchy</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Showers */}
-          <Select>
-            <SelectTrigger className="col-span-2">
-              <SelectValue placeholder="Showers Available?" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="yes">Yes</SelectItem>
-              <SelectItem value="no">no</SelectItem>
-            </SelectContent>
-          </Select>
+          <FormField
+            name="showers"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="col-span-2">
+                    <SelectValue placeholder="Showers Available?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">Yes</SelectItem>
+                    <SelectItem value="no">no</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button className="col-span-2" type="submit">
             Submit
