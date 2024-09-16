@@ -17,6 +17,7 @@ const formSchema = z.object({
   category: z.string(),
   description: z.string(),
   pics: z.string(),
+  fakeName: z.string(),
 });
 export default function Home() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -45,6 +46,7 @@ export default function Home() {
       category: "",
       description: "",
       pics: "",
+      fakeName: "",
     },
   });
 

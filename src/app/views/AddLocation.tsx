@@ -1,7 +1,8 @@
 import React from "react";
 import * as z from "zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Step1 from "../views/add-location-steps/Step1";
+import Step2 from "../views/add-location-steps/Step2";
 
 // TODO: probably want to fix this import alias
 import { AddLocationProps, LocationData } from "@/../types";
@@ -14,6 +15,8 @@ const AddLocation: React.FC<AddLocationProps> = ({
   handleUseLocation,
   gettingLocation,
 }) => {
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
     const response = await fetch("/api/addLocation", {
@@ -49,14 +52,26 @@ const AddLocation: React.FC<AddLocationProps> = ({
       </div>
 
       {/* TODO: Create a add location route */}
-      <Step1
-        form={form}
-        formSchema={formSchema}
-        handleSubmit={handleSubmit}
-        handleFindOnMap={handleFindOnMap}
-        handleUseLocation={handleUseLocation}
-        gettingLocation={gettingLocation}
-      />
+      {currentStep === 1 && (
+        <Step1
+          form={form}
+          formSchema={formSchema}
+          handleSubmit={handleSubmit}
+          handleFindOnMap={handleFindOnMap}
+          handleUseLocation={handleUseLocation}
+          gettingLocation={gettingLocation}
+        />
+      )}
+
+      {currentStep === 2 && (
+        <Step2
+          form={form}
+          formSchema={formSchema}
+          handleSubmit={handleSubmit}
+        />
+      )}
+      <button onClick={() => setCurrentStep(currentStep - 1)}>Prev</button>
+      <button onClick={() => setCurrentStep(currentStep + 1)}>Next</button>
     </div>
   );
 };

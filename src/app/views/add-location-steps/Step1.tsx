@@ -1,6 +1,14 @@
 import React from "react";
 import * as z from "zod";
 import { useForm, UseFormReturn } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMap,
+  faMountain,
+  faCity,
+  faCampground,
+  faCrosshairs,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   Form,
   FormControl,
@@ -28,6 +36,7 @@ const formSchema = z.object({
   category: z.string(),
   description: z.string(),
   pics: z.string().optional(),
+  fakeName: z.string(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -109,7 +118,7 @@ const Step1: React.FC<Step1Props> = ({
         {/* find on map */}
         <Button type="button" onClick={handleFindOnMap} className="col-span-2">
           Find Location on Map
-          {/* Add FontAwesome icon here */}
+          <FontAwesomeIcon className="ps-5" icon={faMap} />
         </Button>
         {/* use current location */}
         <Button
@@ -117,8 +126,11 @@ const Step1: React.FC<Step1Props> = ({
           onClick={handleUseLocation}
           className="col-span-2"
         >
-          Use Current Location
-          {/* Add FontAwesome icon here */}
+          <span className="pe-5">Use Current Location</span>
+          <FontAwesomeIcon
+            className={`${gettingLocation ? "spin" : ""}`}
+            icon={faCrosshairs}
+          />
         </Button>
         {/* category */}
         <FormField
@@ -134,15 +146,15 @@ const Step1: React.FC<Step1Props> = ({
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="dispersed">
-                    {/* Add FontAwesome icon here */}
+                    <FontAwesomeIcon className="pe-5" icon={faMountain} />
                     Dispersed Campsite
                   </SelectItem>
                   <SelectItem value="city">
-                    {/* Add FontAwesome icon here */}
+                    <FontAwesomeIcon className="pe-5" icon={faCity} />
                     City Campsite
                   </SelectItem>
                   <SelectItem value="established">
-                    {/* Add FontAwesome icon here */}
+                    <FontAwesomeIcon className="pe-5" icon={faCampground} />
                     Established Campsite
                   </SelectItem>
                 </SelectContent>
