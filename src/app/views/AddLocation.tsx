@@ -70,8 +70,20 @@ const AddLocation: React.FC<AddLocationProps> = ({
           handleSubmit={handleSubmit}
         />
       )}
-      <button onClick={() => setCurrentStep(currentStep - 1)}>Prev</button>
-      <button onClick={() => setCurrentStep(currentStep + 1)}>Next</button>
+
+      <div className="bottom-addLocation-nav fixed bottom-0 flex px-8 justify-between w-full menu-shadow h-[40px]">
+        {currentStep > 1 && (
+          <button onClick={() => setCurrentStep(currentStep - 1)}>Prev</button>
+        )}
+        {currentStep < 2 && (
+          <button
+            className="ml-auto"
+            onClick={() => setCurrentStep(currentStep + 1)}
+          >
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
 };
